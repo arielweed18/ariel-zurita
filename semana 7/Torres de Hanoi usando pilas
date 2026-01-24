@@ -1,0 +1,41 @@
+using System;
+using System.Collections.Generic;
+
+class TorresDeHanoi
+{
+    static void MoverDiscos(int n, Stack<int> origen, Stack<int> destino, Stack<int> auxiliar,
+                            string nombreOrigen, string nombreDestino, string nombreAuxiliar)
+    {
+        if (n > 0)
+        {
+            // Mover n-1 discos al auxiliar
+            MoverDiscos(n - 1, origen, auxiliar, destino, nombreOrigen, nombreAuxiliar, nombreDestino);
+
+            // Mover el disco restante
+            int disco = origen.Pop();
+            destino.Push(disco);
+            Console.WriteLine($"Mover disco {disco} de {nombreOrigen} a {nombreDestino}");
+
+            // Mover n-1 discos al destino
+            MoverDiscos(n - 1, auxiliar, destino, origen, nombreAuxiliar, nombreDestino, nombreOrigen);
+        }
+    }
+
+    static void Main()
+    {
+        int numeroDiscos = 3;
+
+        Stack<int> torreA = new Stack<int>();
+        Stack<int> torreB = new Stack<int>();
+        Stack<int> torreC = new Stack<int>();
+
+        // Inicializar la torre A
+        for (int i = numeroDiscos; i >= 1; i--)
+        {
+            torreA.Push(i);
+        }
+
+        Console.WriteLine("Pasos para resolver las Torres de Hanoi:\n");
+        MoverDiscos(numeroDiscos, torreA, torreC, torreB, "Torre A", "Torre C", "Torre B");
+    }
+}
