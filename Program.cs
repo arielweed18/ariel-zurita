@@ -1,121 +1,66 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 class Program
 {
-	static void Main()
-	{
-		int opcion;
+    static void Main()
+    {
+        // Conjunto universal: 500 ciudadanos
+        HashSet<string> ciudadanos = new HashSet<string>();
 
-		do
-		{
-			Console.Clear();
-			Console.WriteLine("MENÚ PRINCIPAL");
-			Console.WriteLine("1. Ejercicio 1 (Suma)");
-			Console.WriteLine("2. Ejercicio 2 (Par o Impar)");
-			Console.WriteLine("3. Ejercicio 3 (Mayor de 3 números)");
-			Console.WriteLine("4. Ejercicio 4 (Tabla de multiplicar)");
-			Console.WriteLine("5. Ejercicio 5 (Factorial)");
-			Console.WriteLine("0. Salir");
-			Console.Write("Seleccione una opción: ");
+        for (int i = 1; i <= 500; i++)
+        {
+            ciudadanos.Add("Ciudadano " + i);
+        }
 
-			opcion = int.Parse(Console.ReadLine());
+        // Conjunto Pfizer (75 ciudadanos)
+        HashSet<string> pfizer = new HashSet<string>();
 
-			Console.Clear();
+        for (int i = 1; i <= 75; i++)
+        {
+            pfizer.Add("Ciudadano " + i);
+        }
 
-			switch (opcion)
-			{
-				case 1:
-					Ejercicio1();
-					break;
-				case 2:
-					Ejercicio2();
-					break;
-				case 3:
-					Ejercicio3();
-					break;
-				case 4:
-					Ejercicio4();
-					break;
-				case 5:
-					Ejercicio5();
-					break;
-				case 0:
-					Console.WriteLine("Saliendo del programa...");
-					break;
-				default:
-					Console.WriteLine("Opción inválida");
-					break;
-			}
+        // Conjunto AstraZeneca (75 ciudadanos)
+        HashSet<string> astraZeneca = new HashSet<string>();
 
-			Console.WriteLine("\nPresione una tecla para continuar...");
-			Console.ReadKey();
+        for (int i = 50; i <= 124; i++)
+        {
+            astraZeneca.Add("Ciudadano " + i);
+        }
 
-		} while (opcion != 0);
-	}
+        // Ambas dosis (Intersección)
+        var ambasDosis = pfizer.Intersect(astraZeneca);
 
-	static void Ejercicio1()
-	{
-		Console.WriteLine("Ejercicio 1");
-		Console.Write("Ingrese el primer número: ");
-		int a = int.Parse(Console.ReadLine());
-		Console.Write("Ingrese el segundo número: ");
-		int b = int.Parse(Console.ReadLine());
-		int suma = a + b;
-		Console.WriteLine("La suma es: " + suma);
-	}
+        // Unión de vacunados
+        var vacunados = pfizer.Union(astraZeneca);
 
-	static void Ejercicio2()
-	{
-		Console.WriteLine("Ejercicio 2");
-		Console.Write("Ingrese un número: ");
-		int n = int.Parse(Console.ReadLine());
-		if (n % 2 == 0)
-			Console.WriteLine("El número es par");
-		else
-			Console.WriteLine("El número es impar");
-	}
+        // No vacunados
+        var noVacunados = ciudadanos.Except(vacunados);
 
-	static void Ejercicio3()
-	{
-		Console.WriteLine("Ejercicio 3");
-		Console.Write("Ingrese el primer número: ");
-		int a = int.Parse(Console.ReadLine());
-		Console.Write("Ingrese el segundo número: ");
-		int b = int.Parse(Console.ReadLine());
-		Console.Write("Ingrese el tercer número: ");
-		int c = int.Parse(Console.ReadLine());
+        // Solo Pfizer
+        var soloPfizer = pfizer.Except(astraZeneca);
 
-		int mayor = a;
-		if (b > mayor) mayor = b;
-		if (c > mayor) mayor = c;
+        // Solo AstraZeneca
+        var soloAstraZeneca = astraZeneca.Except(pfizer);
 
-		Console.WriteLine("El mayor es: " + mayor);
-	}
+        // Mostrar resultados
+        Console.WriteLine("===== CIUDADANOS CON AMBAS DOSIS =====");
+        foreach (var c in ambasDosis)
+            Console.WriteLine(c);
 
-	static void Ejercicio4()
-	{
-		Console.WriteLine("Ejercicio 4");
-		Console.Write("Ingrese un número: ");
-		int n = int.Parse(Console.ReadLine());
+        Console.WriteLine("\n===== CIUDADANOS NO VACUNADOS =====");
+        foreach (var c in noVacunados)
+            Console.WriteLine(c);
 
-		for (int i = 1; i <= 10; i++)
-		{
-			Console.WriteLine($"{n} x {i} = {n * i}");
-		}
-	}
+        Console.WriteLine("\n===== CIUDADANOS SOLO PFIZER =====");
+        foreach (var c in soloPfizer)
+            Console.WriteLine(c);
 
-	static void Ejercicio5()
-	{
-		Console.WriteLine("Ejercicio 5");
-		Console.Write("Ingrese un número: ");
-		int n = int.Parse(Console.ReadLine());
-
-		int factorial = 1;
-		for (int i = 1; i <= n; i++)
-		{
-			factorial *= i;
-		}
-
-		Console.WriteLine("El factorial es: " + factorial);
-	}
+        Console.WriteLine("\n===== CIUDADANOS SOLO ASTRAZENECA =====");
+        foreach (var c in soloAstraZeneca)
+            Console.WriteLine(c);
+    }
 }
+
