@@ -1,66 +1,83 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 class Program
 {
-    static void Main()
+    static void Main(string[] args)
     {
-        // Conjunto universal: 500 ciudadanos
-        HashSet<string> ciudadanos = new HashSet<string>();
+        ArbolBST arbol = new ArbolBST();
+        int opcion, valor;
 
-        for (int i = 1; i <= 500; i++)
+        do
         {
-            ciudadanos.Add("Ciudadano " + i);
-        }
+            Console.WriteLine("\n--- MENÚ BST ---");
+            Console.WriteLine("1. Insertar");
+            Console.WriteLine("2. Buscar");
+            Console.WriteLine("3. Eliminar");
+            Console.WriteLine("4. Inorden");
+            Console.WriteLine("5. Preorden");
+            Console.WriteLine("6. Postorden");
+            Console.WriteLine("7. Min y Max");
+            Console.WriteLine("8. Altura");
+            Console.WriteLine("9. Limpiar");
+            Console.WriteLine("0. Salir");
+            Console.Write("Opción: ");
+            opcion = int.Parse(Console.ReadLine());
 
-        // Conjunto Pfizer (75 ciudadanos)
-        HashSet<string> pfizer = new HashSet<string>();
+            switch (opcion)
+            {
+                case 1:
+                    Console.Write("Valor: ");
+                    valor = int.Parse(Console.ReadLine());
+                    arbol.Raiz = arbol.Insertar(arbol.Raiz, valor);
+                    break;
 
-        for (int i = 1; i <= 75; i++)
-        {
-            pfizer.Add("Ciudadano " + i);
-        }
+                case 2:
+                    Console.Write("Buscar: ");
+                    valor = int.Parse(Console.ReadLine());
+                    Console.WriteLine(arbol.Buscar(arbol.Raiz, valor) ? "Sí existe" : "No existe");
+                    break;
 
-        // Conjunto AstraZeneca (75 ciudadanos)
-        HashSet<string> astraZeneca = new HashSet<string>();
+                case 3:
+                    Console.Write("Eliminar: ");
+                    valor = int.Parse(Console.ReadLine());
+                    arbol.Raiz = arbol.Eliminar(arbol.Raiz, valor);
+                    break;
 
-        for (int i = 50; i <= 124; i++)
-        {
-            astraZeneca.Add("Ciudadano " + i);
-        }
+                case 4:
+                    arbol.InOrden(arbol.Raiz);
+                    Console.WriteLine();
+                    break;
 
-        // Ambas dosis (Intersección)
-        var ambasDosis = pfizer.Intersect(astraZeneca);
+                case 5:
+                    arbol.PreOrden(arbol.Raiz);
+                    Console.WriteLine();
+                    break;
 
-        // Unión de vacunados
-        var vacunados = pfizer.Union(astraZeneca);
+                case 6:
+                    arbol.PostOrden(arbol.Raiz);
+                    Console.WriteLine();
+                    break;
 
-        // No vacunados
-        var noVacunados = ciudadanos.Except(vacunados);
+                case 7:
+                    if (arbol.Raiz != null)
+                    {
+                        Console.WriteLine("Min: " + arbol.Minimo(arbol.Raiz).Valor);
+                        Console.WriteLine("Max: " + arbol.Maximo(arbol.Raiz));
+                    }
+                    else
+                        Console.WriteLine("Árbol vacío");
+                    break;
 
-        // Solo Pfizer
-        var soloPfizer = pfizer.Except(astraZeneca);
+                case 8:
+                    Console.WriteLine("Altura: " + arbol.Altura(arbol.Raiz));
+                    break;
 
-        // Solo AstraZeneca
-        var soloAstraZeneca = astraZeneca.Except(pfizer);
+                case 9:
+                    arbol.Limpiar();
+                    Console.WriteLine("Árbol limpio");
+                    break;
+            }
 
-        // Mostrar resultados
-        Console.WriteLine("===== CIUDADANOS CON AMBAS DOSIS =====");
-        foreach (var c in ambasDosis)
-            Console.WriteLine(c);
-
-        Console.WriteLine("\n===== CIUDADANOS NO VACUNADOS =====");
-        foreach (var c in noVacunados)
-            Console.WriteLine(c);
-
-        Console.WriteLine("\n===== CIUDADANOS SOLO PFIZER =====");
-        foreach (var c in soloPfizer)
-            Console.WriteLine(c);
-
-        Console.WriteLine("\n===== CIUDADANOS SOLO ASTRAZENECA =====");
-        foreach (var c in soloAstraZeneca)
-            Console.WriteLine(c);
+        } while (opcion != 0);
     }
 }
-
